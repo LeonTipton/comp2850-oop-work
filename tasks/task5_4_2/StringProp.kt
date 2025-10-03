@@ -1,5 +1,5 @@
 // Task 5.4.1: string extension function
-fun String.tooLong() = this.length > 20
+val String.tooLong: Boolean get() = this.length > 20
 
 fun main() {
     val testStrings = listOf(
@@ -9,7 +9,7 @@ fun main() {
     )
 
     for (str in testStrings) {
-        if (str.tooLong()) {
+        if (str.tooLong) {
             println("The string \"$str\" is too long.")
         } else {
             println("The string \"$str\" is acceptable.")
