@@ -3,8 +3,23 @@
 typealias Record = Pair<String,Double>
 
 fun fetchData(): List<Record> {
-  // Create and return a simulated dataset here
-  // Use the listOf() and to() functions to create the dataset
+  val data = mutableListOf<Record>()
+  while (true) {
+    print("Enter station name: ")
+    val name = readln()
+    if (name.isEmpty()) break
+
+    print("Enter temperature recorded: ")
+    val tempInput = readln()
+    val temp = tempInput.toDoubleOrNull()
+    if (temp == null) {
+      println("Invalid temperature. Please enter a valid number.")
+      continue
+    }
+
+    data.add(name to temp)
+  }
+  return data
 }
 
 // Challenge: compute average temperature with one line of code
