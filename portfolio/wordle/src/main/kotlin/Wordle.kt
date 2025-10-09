@@ -39,5 +39,5 @@ fun displayGuess(guess: String, matches: List<Int>) {
             out[i] = guess[i]
         }
     }
-    println("${out.toString()}")
+    println(out)
 }
