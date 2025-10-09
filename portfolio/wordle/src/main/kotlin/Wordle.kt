@@ -32,7 +32,6 @@ fun evaluateGuess(guess: String, target: String): List<Int> {
     return ret.toList()
 }
 
-// no test
 fun displayGuess(guess: String, matches: List<Int>) {
     var out = CharArray(5) { '?' }
     for (i in 0..4) {
