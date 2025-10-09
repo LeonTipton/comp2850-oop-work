@@ -16,7 +16,7 @@ fun pickRandomWord(words: MutableList<String>): String {
 fun obtainGuess(attempt: Int): String {
     println("Attempt $attempt")
     print("Enter your guess: ")
-    return readlnOrNull()
+    return readln()
 }
 
 fun evaluateGuess(guess: String, target: String): List<Int> {
