@@ -49,6 +49,9 @@ class WordleTest : StringSpec({
     "Throws FileNotFoundException for incorrect file" {
         shouldThrow<FileNotFoundException> { readWordList("./data/test.tx") }
     }
+    "Throws FileNotFoundException for incorrect directory" {
+        shouldThrow<FileNotFoundException> { readWordList("./wrongdir/test.txt") }
+    }
 
     // pickRandomWord tests
     
