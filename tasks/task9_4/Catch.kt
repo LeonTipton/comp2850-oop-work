@@ -14,13 +14,10 @@ fun main() {
     catch (error: NumberFormatException) {
         println("You didn't enter a valid number")
     }
-    catch (error: IllegalArgumentException) {
-        println("Illegal argument")
+    catch (error: ArithmeticException) {
+        println("You tried to divide by zero")
     }
     catch (error: Exception) {
         println("Some sort of error occurred")
-    }
-    catch (error: ArithmeticException) {
-        println("You tried to divide by zero")
     }
 }
