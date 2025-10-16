@@ -13,8 +13,8 @@ fun main() {
             displayGuess(guess, eval)
             if (eval == targetEval) {
                 println("""
-                | Congratulations!!
-                | You got the correc answer in ${i} attempts.
+                |Congratulations!!
+                |You got the correc answer in ${i} attempts.
                 """.trimMargin())
                 break
             }
