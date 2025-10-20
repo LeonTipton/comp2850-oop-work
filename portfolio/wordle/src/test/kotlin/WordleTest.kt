@@ -79,10 +79,10 @@ class WordleTest : StringSpec({
 
     //evaluateGuess tests
 
-    "Guess: 'ABACK' with Target: 'ABACK' returns [1,1,1,1,1]" {
+    "Guess: 'ABACK' with Target: 'ABACK' returns [2,2,2,2,2]" {
         val guess = "ABACK"
         val target = "ABACK"
-        val complist = listOf(1,1,1,1,1)
+        val complist = listOf(2,2,2,2,2)
         
         evaluateGuess(guess, target) shouldContainExactly complist
     }
@@ -93,17 +93,38 @@ class WordleTest : StringSpec({
         
         evaluateGuess(guess, target) shouldContainExactly complist
     }
-    "Guess: 'ABACK' with Target: 'ABASE' returns [1,1,1,0,0]" {
+    "Guess: 'ABACK' with Target: 'ABASE' returns [2,2,2,0,0]" {
         val guess = "ABACK"
         val target = "ABASE"
-        val complist = listOf(1,1,1,0,0)
+        val complist = listOf(2,2,2,0,0)
         
         evaluateGuess(guess, target) shouldContainExactly complist
     }
-    "Guess: 'ABASE' with Target: 'WHALE' returns [0,0,1,0,1]" {
+    "Guess: 'WHALE' with Target: 'BASTE' returns [0,0,1,0,2]" {
+        val guess = "WHALE"
+        val target = "BASTE"
+        val complist = listOf(0,0,1,0,2)
+        
+        evaluateGuess(guess, target) shouldContainExactly complist
+    }
+    "Guess: 'ABASE' with Target: 'LIMBO' returns [0,1,0,0,0]" {
         val guess = "ABASE"
-        val target = "WHALE"
-        val complist = listOf(0,0,1,0,1)
+        val target = "LIMBO"
+        val complist = listOf(0,1,0,0,0)
+        
+        evaluateGuess(guess, target) shouldContainExactly complist
+    }
+    "Guess: 'BELTS' with Target: 'LIMBO' returns [1,0,1,0,0]" {
+        val guess = "BELTS"
+        val target = "LIMBO"
+        val complist = listOf(1,0,1,0,0)
+        
+        evaluateGuess(guess, target) shouldContainExactly complist
+    }
+    "Guess: 'LOAMY' with Target: 'LIMBO' returns [2,1,0,1,0]" {
+        val guess = "LOAMY"
+        val target = "LIMBO"
+        val complist = listOf(2,1,0,1,0)
         
         evaluateGuess(guess, target) shouldContainExactly complist
     }
