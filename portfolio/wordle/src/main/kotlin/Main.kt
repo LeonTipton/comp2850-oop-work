@@ -1,16 +1,15 @@
 fun main() {
     val words = readWordList("./data/words.txt")
     var play: Boolean = true
-    val targetEval = List<Int> (5) { 1 }
+    val targetEval = List<Int> (5) { 2 }
     while (play) {
         val target = pickRandomWord(words)
-        println(target)
-        for (i in 1..10) {
+        for (i in 1..6) {
             val guess = obtainGuess(i)
             val eval = if (isValid(guess)) evaluateGuess(guess, target) else listOf<Int>()
             if (eval == listOf<Int>()) {
                 println("Invalid guess")
-                if (i == 10) {
+                if (i == 6) {
                     println("""
                     |You haven't correctly guessed the word.
                     |It was ${target}.
@@ -27,7 +26,7 @@ fun main() {
                 break
             }
             displayGuess(guess, eval)
-            if (i == 10) {
+            if (i == 6) {
                 println("""
                 |You haven't correctly guessed the word.
                 |It was ${target}.
