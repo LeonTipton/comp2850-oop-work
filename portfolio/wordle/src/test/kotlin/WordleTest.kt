@@ -9,6 +9,9 @@ import io.kotest.matchers.collections.shouldBeSmallerThan
 import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.collections.shouldContainExactly
 
+val complist = mutableListOf("ABACK", "ABASE", "ABATE", "ABBEY", "ABBOT", "ABHOR", "ABIDE", "ABLED", "ABODE", 
+"ABORT", "ABOUT", "ABOVE", "ABUSE", "ABYSS", "ACORN", "ACRID", "ACTOR", "ACUTE", "ADAGE", "ADAPT", "ADEPT")
+
 @Suppress("unused")
 class WordleTest : StringSpec({
     // isValid tests
@@ -28,8 +31,31 @@ class WordleTest : StringSpec({
     "Valid input word of length 10 (ABANDONERS)" {
         isValid("ABANDONERS") shouldBe false
     }
+    "Valid input word of length 5 (1CHAR)" {
+        isValid("1CHAR") shouldBe false
+    }
+    "Valid input word of length 5 (CHAR3)" {
+        isValid("CHAR1") shouldBe false
+    }
+    "Valid input word of length 10 (CH4AR)" {
+        isValid("CH4AR") shouldBe false
+    }
+    "Valid input word of length 10 (CH43R)" {
+        isValid("CH43R") shouldBe false
+    }
+    "Valid input word of length 10 (1H4AR)" {
+        isValid("1H4AR") shouldBe false
+    }
+    "Valid input word of length 10 (CH4A5)" {
+        isValid("CH4A5") shouldBe false
+    }
+    "Valid input word of length 10 (CH45R)" {
+        isValid("CH45R") shouldBe false
+    }
 
     // readWordList tests
+
+   
     
     "Test file is read to mutable list of size 21" {
         val testfile = readWordList("./data/test.txt")
@@ -37,7 +63,7 @@ class WordleTest : StringSpec({
     }
     "Test file contains specific names formatted alphabetically" {
         val testfile = readWordList("./data/test.txt")
-        val complist = mutableListOf("ABACK", "ABASE", "ABATE", "ABBEY", "ABBOT", "ABHOR", "ABIDE", "ABLED", "ABODE", "ABORT", "ABOUT", "ABOVE", "ABUSE", "ABYSS", "ACORN", "ACRID", "ACTOR", "ACUTE", "ADAGE", "ADAPT", "ADEPT")
+        
         testfile shouldBe complist
     }
     "Throws FileNotFoundException for missing file" {
@@ -56,25 +82,22 @@ class WordleTest : StringSpec({
     // pickRandomWord tests
     
     "Picks a random word from the list of characters used in previous test set" {
-        val randlist = mutableListOf("ABACK", "ABASE", "ABATE", "ABBEY", "ABBOT", "ABHOR", "ABIDE", "ABLED", "ABODE", "ABORT", "ABOUT", "ABOVE", "ABUSE", "ABYSS", "ACORN", "ACRID", "ACTOR", "ACUTE", "ADAGE", "ADAPT", "ADEPT")
-        val complist = mutableListOf("ABACK", "ABASE", "ABATE", "ABBEY", "ABBOT", "ABHOR", "ABIDE", "ABLED", "ABODE", "ABORT", "ABOUT", "ABOVE", "ABUSE", "ABYSS", "ACORN", "ACRID", "ACTOR", "ACUTE", "ADAGE", "ADAPT", "ADEPT")
+        val randlist = readWordList("./data/test.txt")
         val word = pickRandomWord(randlist)
         word shouldBeIn complist 
     }
     "The list of possible words decreases in size" {
-        val randlist = mutableListOf("ABACK", "ABASE", "ABATE", "ABBEY", "ABBOT", "ABHOR", "ABIDE", "ABLED", "ABODE", "ABORT", "ABOUT", "ABOVE", "ABUSE", "ABYSS", "ACORN", "ACRID", "ACTOR", "ACUTE", "ADAGE", "ADAPT", "ADEPT")
-        val complist = mutableListOf("ABACK", "ABASE", "ABATE", "ABBEY", "ABBOT", "ABHOR", "ABIDE", "ABLED", "ABODE", "ABORT", "ABOUT", "ABOVE", "ABUSE", "ABYSS", "ACORN", "ACRID", "ACTOR", "ACUTE", "ADAGE", "ADAPT", "ADEPT")
+        val randlist = readWordList("./data/test.txt")
         val word = pickRandomWord(randlist)
         randlist shouldBeSmallerThan complist
     }
     "The chosen word is no longer be in the list of words" {
-        val complist = mutableListOf("ABACK", "ABASE", "ABATE", "ABBEY", "ABBOT", "ABHOR", "ABIDE", "ABLED", "ABODE", "ABORT", "ABOUT", "ABOVE", "ABUSE", "ABYSS", "ACORN", "ACRID", "ACTOR", "ACUTE", "ADAGE", "ADAPT", "ADEPT")
         val word = pickRandomWord(complist)
         complist.shouldNotContain(word)
     }
     "IllegalArgumentException thrown if the input list is empty" {
-        val complist = mutableListOf<String> ()
-        shouldThrow<IllegalArgumentException> { pickRandomWord(complist) }
+        val emptylist = mutableListOf<String> ()
+        shouldThrow<IllegalArgumentException> { pickRandomWord(emptylist) }
     }
 
     //evaluateGuess tests

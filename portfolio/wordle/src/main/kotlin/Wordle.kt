@@ -2,7 +2,15 @@
 import java.io.File
 import kotlin.random.Random
 
-fun isValid(word: String): Boolean = word.length == 5
+fun isValid(word: String): Boolean {
+    val regex = "[0-9]+".toRegex()
+    if (regex.containsMatchIn(word) || word.length != 5) {
+        println("Invalid guess, please try again")
+        return false
+    } else {
+        return true
+    }
+}
 
 fun readWordList(filename: String): MutableList<String> = File(filename).useLines { it.toMutableList<String>() }
 
@@ -14,13 +22,20 @@ fun pickRandomWord(words: MutableList<String>): String {
 }
 
 fun obtainGuess(attempt: Int): String {
+    var valid = false
+    var userInput: String
     println("Attempt $attempt")
-    print("Enter your guess: ")
-    return readln().uppercase()
+    do {
+        print("Enter your guess: ")
+        userInput = readlnOrNull()?.let { it.uppercase() } ?: ""
+        valid = isValid(userInput)
+    } while (!valid)
+    return userInput
 }
 
 fun evaluateGuess(guess: String, target: String): List<Int> {
     val ret = mutableListOf<Int>()
+    
     for (i in 0..4) {
         if (guess[i] == target[i]) {
             ret.add(2)
@@ -39,7 +54,7 @@ fun displayGuess(guess: String, matches: List<Int>) {
     val green = "\u001b[32m"
     val yellow = "\u001b[33m"
     val red = "\u001b[31m"
-
+    
     for (i in 0..4) {
        if (matches[i] == 2) {       
             outp += green + guess[i]
