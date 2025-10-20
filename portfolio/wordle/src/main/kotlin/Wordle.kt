@@ -23,21 +23,32 @@ fun evaluateGuess(guess: String, target: String): List<Int> {
     val ret = mutableListOf<Int>()
     for (i in 0..4) {
         if (guess[i] == target[i]) {
+            ret.add(2)
+        } else if (guess[i] in target) {
             ret.add(1)
         } else {
             ret.add(0)
         }
-        ret[i] = if (guess[i] == target[i]) 1 else 0
     }
     return ret.toList()
 }
 
 fun displayGuess(guess: String, matches: List<Int>) {
-    var out = CharArray(5) { '?' }
+    var outp: String = ""
+    val reset = "\u001b[0m"
+    val green = "\u001b[32m"
+    val yellow = "\u001b[33m"
+    val red = "\u001b[31m"
+
     for (i in 0..4) {
-       if (matches[i] == 1) {
-            out[i] = guess[i]
+       if (matches[i] == 2) {       
+            outp += green + guess[i]
+        } else if (matches[i] == 1) {
+            outp += yellow + guess[i]
+        } else {
+            outp += red + guess[i]
         }
     }
-    println(out)
+    outp += reset
+    println(outp)
 }
