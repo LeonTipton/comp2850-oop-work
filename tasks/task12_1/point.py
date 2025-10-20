@@ -1,15 +1,14 @@
-import math
-from math import pow
+from math import hypot
 class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
     
     def distance(self):
-        return math.sqrt(pow(self.x, 2) + pow(self.y, 2))
+        return hypot(self.x, self.y)
     
     def distanceTo(self, p):
-        return math.sqrt(pow(self.x - p.x, 2) + pow(self.y - p.y,2))
+        return hypot(self.x - p.x, self.y - p.y)
 
 def main():
     p = Point(4.5, 7.0)
