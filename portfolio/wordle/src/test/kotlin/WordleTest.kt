@@ -12,6 +12,8 @@ import io.kotest.matchers.collections.shouldContainExactly
 val complist = mutableListOf("ABACK", "ABASE", "ABATE", "ABBEY", "ABBOT", "ABHOR", "ABIDE", "ABLED", "ABODE", 
 "ABORT", "ABOUT", "ABOVE", "ABUSE", "ABYSS", "ACORN", "ACRID", "ACTOR", "ACUTE", "ADAGE", "ADAPT", "ADEPT")
 
+val listParameter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toList()
+
 @Suppress("unused")
 class WordleTest : StringSpec({
     // isValid tests
@@ -151,4 +153,56 @@ class WordleTest : StringSpec({
         
         evaluateGuess(guess, target) shouldContainExactly complist
     }
+
+    // remainingChars test
+
+    "Guess: 'ABACK' with Target: 'ABACK' returns 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.toList()'" {
+        val guess = "ABACK"
+        val target = listOf(2,2,2,2,2)
+        val complist = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toList()
+        
+        remainingChars(guess, target, listParameter) shouldContainExactly complist
+    }
+    "Guess: 'ABACK' with Target: 'WORLD' returns 'DEFGHIJLMNOPQRSTUVWXYZ.toList()'" {
+        val guess = "ABACK"
+        val target = listOf(0,0,0,0,0)
+        val complist = "DEFGHIJLMNOPQRSTUVWXYZ".toList()
+        
+        remainingChars(guess, target, listParameter) shouldContainExactly complist
+    }
+    "Guess: 'ABACK' with Target: 'ABASE' returns 'ABDEFGHIJLMNOPQRSTUVWYZ.toList()'" {
+        val guess = "ABACK"
+        val target = listOf(2,2,2,0,0)
+        val complist = "ABDEFGHIJLMNOPQRSTUVWXYZ".toList()
+        
+        remainingChars(guess, target, listParameter) shouldContainExactly complist
+    }
+    "Guess: 'WHALE' with Target: 'BASTE' returns 'ABCDEFGIJKMNOPQRSTUVXZ.toList()'" {
+        val guess = "WHALE"
+        val target = listOf(0,0,1,0,2)
+        val complist = "ABCDEFGIJKMNOPQRSTUVXYZ".toList()
+        
+        remainingChars(guess, target, listParameter) shouldContainExactly complist
+    }
+    "Guess: 'ABASE' with Target: 'LIMBO' returns 'BCDFGHIJKLMNOPQRTUVWXYZ.toList()'" {
+        val guess = "ABASE"
+        val target = listOf(0,1,0,0,0)
+        val complist = "BCDFGHIJKLMNOPQRTUVWXYZ".toList()
+        
+        remainingChars(guess, target, listParameter) shouldContainExactly complist
+    }
+    "Guess: 'BELTS' with Target: 'LIMBO' returns 'ABCDFGHIJKLMNOPQRUVWXZ.toList()'" {
+        val guess = "BELTS"
+        val target = listOf(1,0,1,0,0)
+        val complist = "ABCDFGHIJKLMNOPQRUVWXYZ".toList()
+        
+        remainingChars(guess, target, listParameter) shouldContainExactly complist
+    }
+    "Guess: 'LOAMY' with Target: 'LIMBO' returns 'BCDEFGHIJKLMNOPQRSTUVWXZ.toList()'" {
+        val guess = "LOAMY"
+        val target = listOf(2,1,0,1,0)
+        val complist = "BCDEFGHIJKLMNOPQRSTUVWXZ".toList()
+        
+        remainingChars(guess, target, listParameter) shouldContainExactly complist
+    }    
 })
