@@ -7,6 +7,7 @@ fun main() {
     val targetEval = List<Int>(5) { 2 }
     while (play) {
         var charactersLeft = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toList()
+        var prev = Pair("", 0)
         val target = pickRandomWord(words)
         for (i in 1..ATTEMPT_LIMIT) {
             val guess = obtainGuess(i)
@@ -23,7 +24,8 @@ fun main() {
 
             displayGuess(guess, eval)
             charactersLeft = remainingChars(guess, eval, charactersLeft)
-            displayChars(charactersLeft, target, eval)
+            prev = displayChars(charactersLeft, guess, eval, prev)
+            
 
             if (i == ATTEMPT_LIMIT) {
                 println("""

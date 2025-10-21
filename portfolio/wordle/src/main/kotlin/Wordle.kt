@@ -21,6 +21,18 @@ fun pickRandomWord(words: MutableList<String>): String {
     return word
 }
 
+fun remainingChars(guess: String, eval: List<Int>, alphabet: List<Char>): List<Char> {
+    val wrongChars = guess.toMutableList()
+
+    for (i in 0..4) {
+        if (eval[i] != 0) {
+            wrongChars.remove(guess[i])
+        }
+    }
+    return alphabet.filterNot {chr -> chr in wrongChars}
+}
+
+
 fun obtainGuess(attempt: Int): String {
     var valid = false
     var userInput: String
@@ -66,4 +78,41 @@ fun displayGuess(guess: String, matches: List<Int>) {
     }
     outp += reset
     println(outp)
+}
+
+fun displayChars(remainingChars: List<Char>, guess: String, matches: List<Int>, previous: Pair<String,Int>): Pair<String,Int> {
+    var outp = mutableListOf<String>()
+    val charsLeft = remainingChars.toMutableList()
+    var guessChars = guess + previous.first
+    var matchers = if (previous.second == 0) matches else matches + previous.second.toString().split("").filterNot {it.isBlank()}.map {it.toInt()}
+
+    val reset = "\u001b[0m"
+    val green = "\u001b[32m"
+    val yellow = "\u001b[33m"
+    var retC = mutableListOf<Char>()
+    var retM = mutableListOf<Int>()
+    
+    // println("guess check: $guessChars")
+    // println("match check: $matchers")
+    for ((i, e) in matchers.withIndex()) {
+        if (e == 2) {
+            outp.add(green + guessChars[i])
+            charsLeft.remove(guessChars[i])
+            retC.add(guessChars[i])
+            retM.add(e)
+        } else if (e == 1) {
+            outp.add(yellow + guessChars[i])
+            charsLeft.remove(guessChars[i])
+            retC.add(guessChars[i])
+            retM.add(e)
+        }
+    }
+
+    for (chr in charsLeft) {
+        outp.add(reset + chr)
+    }
+
+    println("Remaining characters: ${outp.distinct().joinToString(separator=" ")}")
+
+    return Pair(retC.joinToString(separator=""), retM.joinToString(separator="").toInt())
 }
