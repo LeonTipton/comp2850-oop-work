@@ -83,8 +83,26 @@ fun displayGuess(guess: String, matches: List<Int>) {
 fun displayChars(remainingChars: List<Char>, guess: String, matches: List<Int>, previous: Pair<String,Int>): Pair<String,Int> {
     var outp = mutableListOf<String>()
     val charsLeft = remainingChars.toMutableList()
-    var guessChars = guess + previous.first
-    var matchers = if (previous.second == 0) matches else matches + previous.second.toString().split("").filterNot {it.isBlank()}.map {it.toInt()}
+
+    var (pChar,pEval) = previous
+    if (pChar != "") {
+        var tempC = guess
+        var tempE = matches.joinToString(separator="")
+        for ((i, c) in pChar.withIndex()) {
+            if(c !in tempC) {
+                tempC += c
+                tempE += tempE[i]
+            }
+        }
+        pChar = tempC
+        pEval = tempE.toInt()
+    } else {
+        pChar = guess
+        pEval = matches.joinToString(separator="").toInt()
+    }
+
+    val guessChars = pChar
+    val matchers = pEval.toString().split("").filterNot {it.isBlank()}.map {it.toInt()}
 
     val reset = "\u001b[0m"
     val green = "\u001b[32m"
@@ -92,8 +110,8 @@ fun displayChars(remainingChars: List<Char>, guess: String, matches: List<Int>, 
     var retC = mutableListOf<Char>()
     var retM = mutableListOf<Int>()
     
-    // println("guess check: $guessChars")
-    // println("match check: $matchers")
+    println("guess check: $guessChars")
+    println("match check: $matchers")
     for ((i, e) in matchers.withIndex()) {
         if (e == 2) {
             outp.add(green + guessChars[i])
