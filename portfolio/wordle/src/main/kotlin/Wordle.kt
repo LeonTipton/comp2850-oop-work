@@ -38,7 +38,7 @@ fun remainingChars(guess: String, eval: IntArray, alphabet: List<Char>): List<Ch
         }
     }
     // returns a filter of the inputted alphabet of characters given that the character is not correct
-    return alphabet.filterNot {chr -> chr in wrongChars}
+    return alphabet.filterNot { chr -> chr in wrongChars }
 }
 
 // parses the user input
@@ -49,9 +49,9 @@ fun obtainGuess(attempt: Int): String {
     println("Attempt $attempt")
     do {
         print("Enter your guess: ")
-        // uses a safe operator to read the userinput, in the event of a nulll input, it is just set to an empty string 
+        // uses a safe operator to read the userinput, in the event of a nulll input, it is just set to an empty string
         // allows the input to be usedin subsequent functions regardless of input
-        userInput = readlnOrNull()?.let { it.uppercase() } ?: "" 
+        userInput = readlnOrNull()?.let { it.uppercase() } ?: ""
         valid = isValid(userInput) // updates validity of the input depending on the isValid() function
     } while (!valid)
     return userInput
@@ -60,7 +60,7 @@ fun obtainGuess(attempt: Int): String {
 // evaluates the input against the target
 fun evaluateGuess(guess: String, target: String): IntArray {
     val ret = mutableListOf<Int>()
-    
+
     // iterates through the characters in guess with the appropriate index
     for ((i, c) in guess.withIndex()) {
         if (c == target[i]) { // fully correct
@@ -81,10 +81,10 @@ fun displayGuess(guess: String, matches: IntArray) {
     val green = "\u001b[32m"
     val yellow = "\u001b[33m"
     val red = "\u001b[31m"
-    
+
     // iterate through matches
     for ((i, m) in matches.withIndex()) {
-       if (m == 2) { // correct letter
+        if (m == 2) { // correct letter
             outp += green + guess[i]
         } else if (m == 1) { // partially correct letter
             outp += yellow + guess[i]
@@ -96,18 +96,39 @@ fun displayGuess(guess: String, matches: IntArray) {
     println(outp)
 }
 
+// this function determines the size and values for the evals
+// due to ints not keeping leading 0s, if the eval is [0,0,1,2,2] which becomes 122,
+// the leading 0s need padding in front before making the list of integer
+fun setMatch(pEval: Int, guessChars: String) = if (pEval.toString().length >= WORD_LEN) {
+    pEval
+        .toString()
+        .split("")
+        .filterNot { it.isBlank() }
+        .map { it.toInt() }
+} else {
+    pEval
+        .toString()
+        .padStart(guessChars.length, '0')
+        .split("")
+        .filterNot { it.isBlank() }
+        .map { it.toInt() }
+}
+
 // display the remaining characters and correctness
 fun displayChars(
-    remainingChars: List<Char>, guess: String, matches: IntArray, previous: Pair<String,Int>
-    ): Pair<String,Int> {
+    remainingChars: List<Char>,
+    guess: String,
+    matches: IntArray,
+    previous: Pair<String, Int>,
+): Pair<String, Int> {
     var outp = mutableListOf<String>()
     val charsLeft = remainingChars.toMutableList()
 
-    var (pChar,pEval) = previous // splits the previous characters input
+    var (pChar, pEval) = previous // splits the previous characters input
     if (pChar != "") { // if previous guess is not the first/completely incorrect
         var tempC = guess
         // converts the matches into a string
-        var tempE = matches.joinToString(separator="")
+        var tempE = matches.joinToString(separator = "")
         // iterate through previous characters
         for ((i, c) in pChar.withIndex()) {
             if(c !in tempC) { // if the character is not already present
@@ -121,17 +142,12 @@ fun displayChars(
     } else { // if there are previous correct guesses
         // set previous characters and eval to the current ones
         pChar = guess
-        pEval = matches.joinToString(separator="").toInt()
+        pEval = matches.joinToString(separator = "").toInt()
     }
 
     // declare the total characters to be guessed with their respective evaluation
     val guessChars = pChar
-    // due to ints not keeping leading 0s, if the eval is [0,0,1,2,2] which becomes 122,
-    // the leading 0s need padding in front before making the list of integer
-    val matchers = if (pEval.toString().length >= WORD_LEN) 
-    pEval.toString().split("").filterNot {it.isBlank()}.map {it.toInt()}
-    else 
-    pEval.toString().padStart(guessChars.length,'0').split("").filterNot {it.isBlank()}.map {it.toInt()}
+    val matchers = setMatch(pEval, guessChars)
 
     // declare colours and reset
     val reset = "\u001b[0m"
@@ -141,7 +157,7 @@ fun displayChars(
     // define return variables
     var retC = mutableListOf<Char>()
     var retM = mutableListOf<Int>()
-    
+
     // iterates through the list of evaluations (size >= 5)
     for ((i, e) in matchers.withIndex()) {
         if (e == 2) { // fully correct
@@ -150,7 +166,7 @@ fun displayChars(
             retC.add(guessChars[i]) // add to return characters
             retM.add(e) // add eval to return eval
         } else if (e == 1) { // partially correct
-            outp.add(yellow + guessChars[i]) //add yellow character to output
+            outp.add(yellow + guessChars[i]) // add yellow character to output
             charsLeft.remove(guessChars[i])
             retC.add(guessChars[i])
             retM.add(e)
@@ -162,13 +178,12 @@ fun displayChars(
     }
 
     // output all characters with a space between them
-    println("Remaining characters: ${outp.joinToString(separator=" ")}")
-    
+    println("Remaining characters: ${outp.joinToString(separator = " ")}")
+
     if (retM.size == 0) { // if guess is fully incorrect
         return Pair("", 0)
     } else {
-        // turns the return lists into a string and int respectively
-        // zips them into a Pair
-        return Pair(retC.joinToString(separator=""), retM.joinToString(separator="").toInt())
+        // turns the return lists into a string and int respectively and returns them as a pair
+        return Pair(retC.joinToString(separator = ""), retM.joinToString(separator = "").toInt())
     }
 }

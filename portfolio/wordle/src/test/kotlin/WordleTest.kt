@@ -1,23 +1,43 @@
-import io.kotest.assertions.withClue
-import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.assertions.throwables.shouldThrow
-import java.io.FileNotFoundException
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldBeIn
 import io.kotest.matchers.collections.shouldBeSmallerThan
-import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.collections.shouldNotContain
+import io.kotest.matchers.shouldBe
+import java.io.FileNotFoundException
 
-val complist = mutableListOf("ABACK", "ABASE", "ABATE", "ABBEY", "ABBOT", "ABHOR", "ABIDE", "ABLED", "ABODE", 
-"ABORT", "ABOUT", "ABOVE", "ABUSE", "ABYSS", "ACORN", "ACRID", "ACTOR", "ACUTE", "ADAGE", "ADAPT", "ADEPT")
+val complist = mutableListOf(
+    "ABACK",
+    "ABASE",
+    "ABATE",
+    "ABBEY",
+    "ABBOT",
+    "ABHOR",
+    "ABIDE",
+    "ABLED",
+    "ABODE",
+    "ABORT",
+    "ABOUT",
+    "ABOVE",
+    "ABUSE",
+    "ABYSS",
+    "ACORN",
+    "ACRID",
+    "ACTOR",
+    "ACUTE",
+    "ADAGE",
+    "ADAPT",
+    "ADEPT",
+)
 
 val listParameter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toList()
 
 @Suppress("unused")
 class WordleTest : StringSpec({
     // isValid tests
-    
+
     "Valid input word of length 5 (ABORT)" {
         isValid("ABORT") shouldBe true
     }
@@ -57,15 +77,13 @@ class WordleTest : StringSpec({
 
     // readWordList tests
 
-   
-    
     "Test file is read to mutable list of size 21" {
         val testfile = readWordList("./data/test.txt")
         testfile shouldHaveSize 21
     }
     "Test file contains specific names formatted alphabetically" {
         val testfile = readWordList("./data/test.txt")
-        
+
         testfile shouldBe complist
     }
     "Throws FileNotFoundException for missing file" {
@@ -82,11 +100,11 @@ class WordleTest : StringSpec({
     }
 
     // pickRandomWord tests
-    
+
     "Picks a random word from the list of characters used in previous test set" {
         val randlist = readWordList("./data/test.txt")
         val word = pickRandomWord(randlist)
-        word shouldBeIn complist 
+        word shouldBeIn complist
     }
     "The list of possible words decreases in size" {
         val randlist = readWordList("./data/test.txt")
@@ -98,59 +116,59 @@ class WordleTest : StringSpec({
         complist.shouldNotContain(word)
     }
     "IllegalArgumentException thrown if the input list is empty" {
-        val emptylist = mutableListOf<String> ()
+        val emptylist = mutableListOf<String>()
         shouldThrow<IllegalArgumentException> { pickRandomWord(emptylist) }
     }
 
-    //evaluateGuess tests
+    // evaluateGuess tests
 
-    "Guess: 'ABACK' with Target: 'ABACK' returns [2,2,2,2,2]" {
+    "Guess: 'ABACK' with Target: 'ABACK' returns [2, 2, 2, 2, 2]" {
         val guess = "ABACK"
         val target = "ABACK"
-        val complist = intArrayOf(2,2,2,2,2)
-        
+        val complist = intArrayOf(2, 2, 2, 2, 2)
+
         evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
-    "Guess: 'ABACK' with Target: 'WORLD' returns [0,0,0,0,0]" {
+    "Guess: 'ABACK' with Target: 'WORLD' returns [0, 0, 0, 0, 0]" {
         val guess = "ABACK"
         val target = "WORLD"
-        val complist = intArrayOf(0,0,0,0,0)
-        
+        val complist = intArrayOf(0, 0, 0, 0, 0)
+
         evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
-    "Guess: 'ABACK' with Target: 'ABASE' returns [2,2,2,0,0]" {
+    "Guess: 'ABACK' with Target: 'ABASE' returns [2, 2, 2, 0, 0]" {
         val guess = "ABACK"
         val target = "ABASE"
-        val complist = intArrayOf(2,2,2,0,0)
-        
+        val complist = intArrayOf(2, 2, 2, 0, 0)
+
         evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
-    "Guess: 'WHALE' with Target: 'BASTE' returns [0,0,1,0,2]" {
+    "Guess: 'WHALE' with Target: 'BASTE' returns [0, 0, 1, 0, 2]" {
         val guess = "WHALE"
         val target = "BASTE"
-        val complist = intArrayOf(0,0,1,0,2)
-        
+        val complist = intArrayOf(0, 0, 1, 0, 2)
+
         evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
-    "Guess: 'ABASE' with Target: 'LIMBO' returns [0,1,0,0,0]" {
+    "Guess: 'ABASE' with Target: 'LIMBO' returns [0, 1, 0, 0, 0]" {
         val guess = "ABASE"
         val target = "LIMBO"
-        val complist = intArrayOf(0,1,0,0,0)
-        
+        val complist = intArrayOf(0, 1, 0, 0, 0)
+
         evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
-    "Guess: 'BELTS' with Target: 'LIMBO' returns [1,0,1,0,0]" {
+    "Guess: 'BELTS' with Target: 'LIMBO' returns [1, 0, 1, 0, 0]" {
         val guess = "BELTS"
         val target = "LIMBO"
-        val complist = intArrayOf(1,0,1,0,0)
-        
+        val complist = intArrayOf(1, 0, 1, 0, 0)
+
         evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
-    "Guess: 'LOAMY' with Target: 'LIMBO' returns [2,1,0,1,0]" {
+    "Guess: 'LOAMY' with Target: 'LIMBO' returns [2, 1, 0, 1, 0]" {
         val guess = "LOAMY"
         val target = "LIMBO"
-        val complist = intArrayOf(2,1,0,1,0)
-        
+        val complist = intArrayOf(2, 1, 0, 1, 0)
+
         evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
 
@@ -158,51 +176,51 @@ class WordleTest : StringSpec({
 
     "Guess: 'ABACK' with Target: 'ABACK' returns 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.toList()'" {
         val guess = "ABACK"
-        val target = intArrayOf(2,2,2,2,2)
+        val target = intArrayOf(2, 2, 2, 2, 2)
         val complist = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toList()
-        
+
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'ABACK' with Target: 'WORLD' returns 'DEFGHIJLMNOPQRSTUVWXYZ.toList()'" {
         val guess = "ABACK"
-        val target = intArrayOf(0,0,0,0,0)
+        val target = intArrayOf(0, 0, 0, 0, 0)
         val complist = "DEFGHIJLMNOPQRSTUVWXYZ".toList()
-        
+
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'ABACK' with Target: 'ABASE' returns 'ABDEFGHIJLMNOPQRSTUVWYZ.toList()'" {
         val guess = "ABACK"
-        val target = intArrayOf(2,2,2,0,0)
+        val target = intArrayOf(2, 2, 2, 0, 0)
         val complist = "ABDEFGHIJLMNOPQRSTUVWXYZ".toList()
-        
+
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'WHALE' with Target: 'BASTE' returns 'ABCDEFGIJKMNOPQRSTUVXZ.toList()'" {
         val guess = "WHALE"
-        val target = intArrayOf(0,0,1,0,2)
+        val target = intArrayOf(0, 0, 1, 0, 2)
         val complist = "ABCDEFGIJKMNOPQRSTUVXYZ".toList()
-        
+
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'ABASE' with Target: 'LIMBO' returns 'BCDFGHIJKLMNOPQRTUVWXYZ.toList()'" {
         val guess = "ABASE"
-        val target = intArrayOf(0,1,0,0,0)
+        val target = intArrayOf(0, 1, 0, 0, 0)
         val complist = "BCDFGHIJKLMNOPQRTUVWXYZ".toList()
-        
+
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'BELTS' with Target: 'LIMBO' returns 'ABCDFGHIJKLMNOPQRUVWXZ.toList()'" {
         val guess = "BELTS"
-        val target = intArrayOf(1,0,1,0,0)
+        val target = intArrayOf(1, 0, 1, 0, 0)
         val complist = "ABCDFGHIJKLMNOPQRUVWXYZ".toList()
-        
+
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'LOAMY' with Target: 'LIMBO' returns 'BCDEFGHIJKLMNOPQRSTUVWXZ.toList()'" {
         val guess = "LOAMY"
-        val target = intArrayOf(2,1,0,1,0)
+        val target = intArrayOf(2, 1, 0, 1, 0)
         val complist = "BCDEFGHIJKLMNOPQRSTUVWXZ".toList()
-        
+
         remainingChars(guess, target, listParameter) shouldContainExactly complist
-    }    
+    }
 })
