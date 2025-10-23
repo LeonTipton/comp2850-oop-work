@@ -21,7 +21,7 @@ fun pickRandomWord(words: MutableList<String>): String {
     return word
 }
 
-fun remainingChars(guess: String, eval: List<Int>, alphabet: List<Char>): List<Char> {
+fun remainingChars(guess: String, eval: IntArray, alphabet: List<Char>): List<Char> {
     val wrongChars = guess.toMutableList()
 
     for (i in 0..4) {
@@ -45,7 +45,7 @@ fun obtainGuess(attempt: Int): String {
     return userInput
 }
 
-fun evaluateGuess(guess: String, target: String): List<Int> {
+fun evaluateGuess(guess: String, target: String): IntArray {
     val ret = mutableListOf<Int>()
     
     for (i in 0..4) {
@@ -57,10 +57,10 @@ fun evaluateGuess(guess: String, target: String): List<Int> {
             ret.add(0)
         }
     }
-    return ret.toList()
+    return ret.toIntArray()
 }
 
-fun displayGuess(guess: String, matches: List<Int>) {
+fun displayGuess(guess: String, matches: IntArray) {
     var outp: String = ""
     val reset = "\u001b[0m"
     val green = "\u001b[32m"
@@ -81,7 +81,7 @@ fun displayGuess(guess: String, matches: List<Int>) {
 }
 
 fun displayChars(
-    remainingChars: List<Char>, guess: String, matches: List<Int>, previous: Pair<String,Int>
+    remainingChars: List<Char>, guess: String, matches: IntArray, previous: Pair<String,Int>
     ): Pair<String,Int> {
     var outp = mutableListOf<String>()
     val charsLeft = remainingChars.toMutableList()
@@ -93,7 +93,7 @@ fun displayChars(
         for ((i, c) in pChar.withIndex()) {
             if(c !in tempC) {
                 tempC += c
-                tempE += tempE[i]
+                tempE += pEval.toString()[i]
             }
         }
         pChar = tempC
@@ -104,10 +104,10 @@ fun displayChars(
     }
 
     val guessChars = pChar
-    val matchers = if (pEval.toString().length == 5) 
+    val matchers = if (pEval.toString().length >= 5) 
     pEval.toString().split("").filterNot {it.isBlank()}.map {it.toInt()}
     else 
-    pEval.toString().padStart(5,'0').split("").filterNot {it.isBlank()}.map {it.toInt()}
+    pEval.toString().padStart(guessChars.length,'0').split("").filterNot {it.isBlank()}.map {it.toInt()}
 
     val reset = "\u001b[0m"
     val green = "\u001b[32m"
@@ -134,6 +134,9 @@ fun displayChars(
     }
 
     println("Remaining characters: ${outp.joinToString(separator=" ")}")
-
-    return Pair(retC.joinToString(separator=""), retM.joinToString(separator="").toInt())
+    if (retM.size == 0) {
+        return Pair("", 0)
+    } else {
+        return Pair(retC.joinToString(separator=""), retM.joinToString(separator="").toInt())
+    }
 }
