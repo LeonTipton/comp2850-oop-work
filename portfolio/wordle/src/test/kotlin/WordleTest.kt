@@ -107,100 +107,100 @@ class WordleTest : StringSpec({
     "Guess: 'ABACK' with Target: 'ABACK' returns [2,2,2,2,2]" {
         val guess = "ABACK"
         val target = "ABACK"
-        val complist = listOf(2,2,2,2,2)
+        val complist = intArrayOf(2,2,2,2,2)
         
-        evaluateGuess(guess, target) shouldContainExactly complist
+        evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
     "Guess: 'ABACK' with Target: 'WORLD' returns [0,0,0,0,0]" {
         val guess = "ABACK"
         val target = "WORLD"
-        val complist = listOf(0,0,0,0,0)
+        val complist = intArrayOf(0,0,0,0,0)
         
-        evaluateGuess(guess, target) shouldContainExactly complist
+        evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
     "Guess: 'ABACK' with Target: 'ABASE' returns [2,2,2,0,0]" {
         val guess = "ABACK"
         val target = "ABASE"
-        val complist = listOf(2,2,2,0,0)
+        val complist = intArrayOf(2,2,2,0,0)
         
-        evaluateGuess(guess, target) shouldContainExactly complist
+        evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
     "Guess: 'WHALE' with Target: 'BASTE' returns [0,0,1,0,2]" {
         val guess = "WHALE"
         val target = "BASTE"
-        val complist = listOf(0,0,1,0,2)
+        val complist = intArrayOf(0,0,1,0,2)
         
-        evaluateGuess(guess, target) shouldContainExactly complist
+        evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
     "Guess: 'ABASE' with Target: 'LIMBO' returns [0,1,0,0,0]" {
         val guess = "ABASE"
         val target = "LIMBO"
-        val complist = listOf(0,1,0,0,0)
+        val complist = intArrayOf(0,1,0,0,0)
         
-        evaluateGuess(guess, target) shouldContainExactly complist
+        evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
     "Guess: 'BELTS' with Target: 'LIMBO' returns [1,0,1,0,0]" {
         val guess = "BELTS"
         val target = "LIMBO"
-        val complist = listOf(1,0,1,0,0)
+        val complist = intArrayOf(1,0,1,0,0)
         
-        evaluateGuess(guess, target) shouldContainExactly complist
+        evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
     "Guess: 'LOAMY' with Target: 'LIMBO' returns [2,1,0,1,0]" {
         val guess = "LOAMY"
         val target = "LIMBO"
-        val complist = listOf(2,1,0,1,0)
+        val complist = intArrayOf(2,1,0,1,0)
         
-        evaluateGuess(guess, target) shouldContainExactly complist
+        evaluateGuess(guess, target).contentEquals(complist) shouldBe true
     }
 
     // remainingChars test
 
     "Guess: 'ABACK' with Target: 'ABACK' returns 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.toList()'" {
         val guess = "ABACK"
-        val target = listOf(2,2,2,2,2)
+        val target = intArrayOf(2,2,2,2,2)
         val complist = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toList()
         
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'ABACK' with Target: 'WORLD' returns 'DEFGHIJLMNOPQRSTUVWXYZ.toList()'" {
         val guess = "ABACK"
-        val target = listOf(0,0,0,0,0)
+        val target = intArrayOf(0,0,0,0,0)
         val complist = "DEFGHIJLMNOPQRSTUVWXYZ".toList()
         
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'ABACK' with Target: 'ABASE' returns 'ABDEFGHIJLMNOPQRSTUVWYZ.toList()'" {
         val guess = "ABACK"
-        val target = listOf(2,2,2,0,0)
+        val target = intArrayOf(2,2,2,0,0)
         val complist = "ABDEFGHIJLMNOPQRSTUVWXYZ".toList()
         
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'WHALE' with Target: 'BASTE' returns 'ABCDEFGIJKMNOPQRSTUVXZ.toList()'" {
         val guess = "WHALE"
-        val target = listOf(0,0,1,0,2)
+        val target = intArrayOf(0,0,1,0,2)
         val complist = "ABCDEFGIJKMNOPQRSTUVXYZ".toList()
         
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'ABASE' with Target: 'LIMBO' returns 'BCDFGHIJKLMNOPQRTUVWXYZ.toList()'" {
         val guess = "ABASE"
-        val target = listOf(0,1,0,0,0)
+        val target = intArrayOf(0,1,0,0,0)
         val complist = "BCDFGHIJKLMNOPQRTUVWXYZ".toList()
         
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'BELTS' with Target: 'LIMBO' returns 'ABCDFGHIJKLMNOPQRUVWXZ.toList()'" {
         val guess = "BELTS"
-        val target = listOf(1,0,1,0,0)
+        val target = intArrayOf(1,0,1,0,0)
         val complist = "ABCDFGHIJKLMNOPQRUVWXYZ".toList()
         
         remainingChars(guess, target, listParameter) shouldContainExactly complist
     }
     "Guess: 'LOAMY' with Target: 'LIMBO' returns 'BCDEFGHIJKLMNOPQRSTUVWXZ.toList()'" {
         val guess = "LOAMY"
-        val target = listOf(2,1,0,1,0)
+        val target = intArrayOf(2,1,0,1,0)
         val complist = "BCDEFGHIJKLMNOPQRSTUVWXZ".toList()
         
         remainingChars(guess, target, listParameter) shouldContainExactly complist
