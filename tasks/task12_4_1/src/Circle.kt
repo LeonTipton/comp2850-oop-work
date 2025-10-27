@@ -10,7 +10,7 @@ class Circle(val r: Double, val centre: Point) {
     }
 
     fun area(): Double = PI * r.pow(2)
-    fun perimeter(): Double = 2 * PI * r
+    fun circumference(): Double = 2 * PI * r
 
     infix fun contains(point: Point): Boolean = point.distanceTo(centre) < r
 }

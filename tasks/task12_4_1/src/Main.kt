@@ -10,7 +10,7 @@ fun main() {
     val p = Point (4, 7)
     
     println(circle.area())
-    println(circle.perimeter())
+    println(circle.circumference())
     println(if (circle contains p) "point in circle" else "point outside circle")
 
 }
